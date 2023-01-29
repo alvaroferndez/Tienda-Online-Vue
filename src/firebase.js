@@ -8,7 +8,7 @@ import { collection } from 'firebase/firestore';
 
 
 // Your web app's Firebase configuration
-export const firebaseApp = initializeApp({
+const firebaseApp = initializeApp({
   apiKey: "AIzaSyAzJiHVoBJfFY7Gjc_TgaCVp0L6FB49dT8",
   authDomain: "tienda-online-be3ea.firebaseapp.com",
   projectId: "tienda-online-be3ea",
@@ -24,4 +24,4 @@ export const db = getFirestore(firebaseApp);
 export const auth = getAuth(firebaseApp)
 
 // productos
-export const productos = useCollection(collection(db, 'notas'));
+export var productos = useCollection(collection(db, 'notas'));

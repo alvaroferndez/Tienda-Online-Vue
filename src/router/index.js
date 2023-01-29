@@ -7,6 +7,10 @@ import electronica from '../components/Electronica.vue'
 import producto from '../components/ProductoUnico.vue'
 import carrito from '../components/Carrito.vue'
 import inicio_sesion from '../components/Inicio-sesion.vue'
+import administracion from '../components/Administracion.vue'
+import agregarproducto from '../components/AgregarProducto.vue'
+import editarproducto from '../components/EditarProducto.vue'
+import registro from '../components/Registrarse.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -50,6 +54,26 @@ const router = createRouter({
       path: '/inicio-sesion',
       name: 'inicio-sesion',
       component: inicio_sesion
+    },
+    {
+      path: '/administracion',
+      name: 'administracion',
+      component: administracion
+    },
+    {
+      path: '/agregar-producto',
+      name: 'agregar-producto',
+      component: agregarproducto
+    },
+    {
+      path: '/editar-producto/:id?',
+      name: 'editar-producto',
+      component: editarproducto
+    },
+    {
+      path: '/registro',
+      name: 'registro',
+      component: registro
     },
   ]
 })

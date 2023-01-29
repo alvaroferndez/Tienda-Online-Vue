@@ -224,7 +224,7 @@ header>*{
       /*disposicion*/
       grid-column: 2 / 4;
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       grid-template-rows: auto;
       align-content: center;
       justify-items: center;
@@ -261,7 +261,7 @@ header>*{
 
 #inicio-sesion{
       /*tamaño*/
-      scale: 2;
+      scale: 1.5;
 
       /*disposicion*/
       grid-column: 2 / 3;
@@ -275,7 +275,7 @@ header>*{
 
 #carrito{
       /*tamaño*/
-      scale: 2;
+      scale: 1.5;
 
       /*disposicion*/
       grid-column: 3 / 4;
@@ -289,7 +289,7 @@ header>*{
 
 #carrito:hover,#inicio-sesion:hover{
       /*transiciones*/
-      scale: 3;
+      scale: 1.8;
       transform: rotateX(360deg);
       transition: all 1s;
 }

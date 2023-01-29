@@ -1,22 +1,51 @@
 <script setup>
 import { ref } from 'vue'
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import router from '../router';
+import { createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signInWithEmailAndPassword } from 'firebase/auth';
+
 var iniciar = ref(true);
 
-var usuario = ref("");
+var correo = ref("");
 var contraseña = ref("");
+
+const provider = new GoogleAuthProvider();
 
 
 function alta(){
-      createUserWithEmailAndPassword(auth,usuario.value,contraseña.value)
+      signInWithEmailAndPassword(auth, correo.value, contraseña.value)
+  .then((userCredential) => {
+    const user = userCredential.user;
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+}
+
+function registro(){
+      createUserWithEmailAndPassword(auth,correo.value,contraseña.value)
       .then((userCredential) => {
-            const user = userCredential.user;
       })
       .catch((error) => {
             const errorCode = error.code;
             const errorMessage = error.message;
       })
+}
+
+function altaGoogle(){
+      signInWithPopup(auth, provider)
+  .then((result) => {
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    const user = result.user;
+
+  }).catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.customData.email;
+    const credential = GoogleAuthProvider.credentialFromError(error);
+  });
 }
 
 function cambiarRegistrarse() {
@@ -34,11 +63,14 @@ function cambiarIniciar() {
             <section class="iniciar">
                   <h1 class="titulo-inicio titulo">Inicio de sesión</h1>
                   <form action="">
-                        <input type="text" class="usuario" pattern="[a-záéíóúñA-ZÁÉÚÍÓÑ0-9]{2,25}"
-                              placeholder="escriba su usuario" v-model="usuario" required>
-                        <input type="password" class="contraseña" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                        <input type="text" class="correo"
+                              placeholder="escriba su correo" v-model="correo" required>
+                        <input type="password" class="contraseña"
                               placeholder="escriba su contraseña" v-model="contraseña" required>
-                        <input type="submit" @click="alta" class="subcribirse" id="iniciar-sesion" value="iniciar sesión">
+                        <input type="button" @click="alta" class="subcribirse" id="iniciar-sesion" value="iniciar sesión">
+                  </form>
+                  <form action="">
+                        <input type="button" @click="altaGoogle" name="google" id="google" value="google">
                   </form>
             </section>
             <section class="registrarse">
@@ -69,7 +101,6 @@ function cambiarIniciar() {
                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
                         <input type="password" class="repetir-contraseña" placeholder="repita su contraseña"
                               pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required>
-                        <input type="submit" class="subcribirse" id="registrarse" value="registrarse">
                   </form>
             </section>
       </section>

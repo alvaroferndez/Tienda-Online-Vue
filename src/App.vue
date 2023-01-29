@@ -1,10 +1,18 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router';
-import { useFirestore, useCollection } from 'vuefire';
-import { collection, setDoc, addDoc, deleteDoc, getDocs, doc } from 'firebase/firestore';
+import { usuario_activo } from './main';
 import { ref } from 'vue';
+import { auth } from './firebase';
+import { signOut } from 'firebase/auth'
 
-localStorage.carrito = JSON.stringify([])
+var a = ref(usuario_activo)
+
+function desloguear(){
+      signOut(auth).then(() => {
+      }).catch((error) => {
+
+})
+}
 
 </script>
 
@@ -30,11 +38,15 @@ localStorage.carrito = JSON.stringify([])
                   <li class='hover vistas'>
                         <router-link to="/electronica" value="electronica">Electronica</router-link>
                   </li>
+                  <li class='hover vistas' v-if="usuario_activo">
+                        <router-link to="/administracion" value="administracion">Administracion</router-link>
+                  </li>
             </nav>
             <!-- opciones usuario -->
             <div class='opciones-usuario'>
-                  <router-link to="/inicio-sesion"><i class='fas fa-user' id='inicio-sesion'></i></router-link>
-                  <router-link to="/carrito"><i class='fa-solid fa-cart-shopping' id='carrito'></i></router-link>
+                  <router-link v-if="!usuario_activo" to="/inicio-sesion" id="inicio-sesion"><i class='fas fa-user' id='inicio-sesion'></i></router-link>
+                  <i v-if="usuario_activo" @click="desloguear" class="fa-solid fa-right-from-bracket" id="inicio-sesion"></i>
+                  <router-link to="/carrito" id="carrito"><i class='fa-solid fa-cart-shopping' id='carrito'></i></router-link>
             </div>
             <div class="menu-hamburguesa">
                   <div id="circulo">

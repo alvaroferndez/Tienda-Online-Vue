@@ -1,14 +1,26 @@
 <script setup>
 import { useRoute } from 'vue-router';
 import { productos } from '../firebase.js'
+import { id_usuario_activo } from '../main';
 
 const router = useRoute();
 
 var producto = productos.value.find((producto) => producto.id == router.params.id)
 
+var talla = "";
+var cantidad = "";
+
 function enviarAlCArrito(){
       var carrito = JSON.parse(localStorage.carrito);
-      carrito.push(producto);
+      var producto_usuario = {
+            nombre : producto.nombre,
+            talla : talla,
+            cantidad : cantidad,
+            imagen : producto.imagen,
+            id : id_usuario_activo.value,
+            precio : producto.precio
+      }
+      carrito.push(producto_usuario);
       localStorage.carrito = JSON.stringify(carrito);
 }
 </script>
@@ -28,7 +40,7 @@ function enviarAlCArrito(){
                   <div class="caracteristicas-producto-unico">
                         <div class="contenendor-cantidad-producto-unico">
                               <span>Cantidad: </span>
-                              <select class="cantidad-producto-unico" name="cantidad">
+                              <select class="cantidad-producto-unico" name="cantidad" v-model="cantidad">
                                     <option value="1">1</option>
                                     <option value="2">2</option>
                                     <option value="3">3</option>
@@ -38,7 +50,7 @@ function enviarAlCArrito(){
                         </div>
                         <div class="contenendor-talla-producto-unico">
                               <span>Talla: </span>
-                              <select class="talla-producto-unico" name="talla">
+                              <select class="talla-producto-unico" name="talla" v-model="talla">
                                     <option value="xs">XS</option>
                                     <option value="s">S</option>
                                     <option value="m">M</option>
@@ -48,8 +60,7 @@ function enviarAlCArrito(){
                         </div>
                   </div>
             </section>
-            <!-- v-if si Auth esta logueado -->
-            <button class="comprar" @click="enviarAlCArrito">Enviar al carrito</button>
-            <!-- v-else <p>Necesitas iniciar sesion para añadir al carrito</p> -->
+            <button v-if="id_usuario_activo" class="comprar" @click="enviarAlCArrito">Enviar al carrito</button>
+            <p v-else >Necesitas iniciar sesion para añadir al carrito</p>
       </div>
 </template>
