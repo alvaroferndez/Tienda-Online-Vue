@@ -8,19 +8,28 @@ const router = useRoute();
 var producto = productos.value.find((producto) => producto.id == router.params.id)
 
 var talla = "";
-var cantidad = "";
+var cantidad = 0;
 
 function enviarAlCArrito(){
+      let esta = false;
       var carrito = JSON.parse(localStorage.carrito);
       var producto_usuario = {
             nombre : producto.nombre,
             talla : talla,
-            cantidad : cantidad,
+            cantidad : parseInt(cantidad),
             imagen : producto.imagen,
             id : id_usuario_activo.value,
             precio : producto.precio
       }
-      carrito.push(producto_usuario);
+      for(let element of carrito){
+            if(element.id == producto_usuario.id && element.talla == producto_usuario.talla){
+                  element.cantidad += producto_usuario.cantidad
+                  esta = true;
+            }
+      }
+      if(!esta){
+            carrito.push(producto_usuario);
+      }
       localStorage.carrito = JSON.stringify(carrito);
 }
 </script>
