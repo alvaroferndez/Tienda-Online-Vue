@@ -1,4 +1,11 @@
-# Tienda Online
+# Clothing store
+
+A clothing store make with vue, firebase and api fakestoreapi: https://fakestoreapi.com/
+
+This store have user login to have your own shopping cart.
+
+The shopping cart and the administration section are disabled due to the expiration of the use of the database provided by firebase.
+
 
 This template should help get you started developing with Vue 3 in Vite.
 
